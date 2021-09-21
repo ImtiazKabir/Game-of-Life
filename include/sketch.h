@@ -9,7 +9,7 @@
 #define TITLE_OF_WINDOW "Conway's Game of Life"
 #define WIDTH (int)800
 #define HEIGHT (int)600
-#define FPS (uint32_t)20
+#define FPS (uint32_t)60
 
 #define col (int)80
 #define row (int)60
