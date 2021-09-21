@@ -6,10 +6,13 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#define TITLE_OF_WINDOW "TITLE OF WINDOW"
-#define WIDTH (int)500
-#define HEIGHT (int)500
-#define FPS (uint32_t)60
+#define TITLE_OF_WINDOW "Conway's Game of Life"
+#define WIDTH (int)800
+#define HEIGHT (int)600
+#define FPS (uint32_t)20
+
+#define col (int)80
+#define row (int)60
 
 static inline void MEOW_Error(char const * const func_name) {
   fprintf(stderr, "~~IM~~ %s did not work\n"
@@ -24,11 +27,25 @@ char * MEOW_GetPath(char const * const child);  /* lib/getpath.c */
 bool event_handler(void);
 
 /* once.c */
-void setup(void);
-void clean_up(void);
+void setup(
+  SDL_Renderer * renderer,
+  SDL_Texture ** const life,
+  SDL_Texture ** const death,
+  bool *** const grid
+);
+void clean_up(
+  SDL_Texture * life,
+  SDL_Texture * death,
+  bool ** grid
+);
 
 /* loop.c */
-void update(void);
-void draw(SDL_Renderer * renderer);
+void update(bool ** grid);
+void draw(
+  SDL_Renderer * renderer,
+  SDL_Texture * life,
+  SDL_Texture * death,
+  bool const * const * const grid
+);
 
 #endif /* LIB_MEOW_SKETCH_H */

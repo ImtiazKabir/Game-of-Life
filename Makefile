@@ -29,7 +29,6 @@ _OBJ= main.o sketch.o loop.o once.o event.o MEOW.o\
 SDL_OBJ=$(addprefix $(SDL_OBJDIR)/, $(_OBJ))
 EMS_OBJ=$(addprefix $(EMS_OBJDIR)/, $(_OBJ))
 
-LIB=-lm
 SDL_LIB=-lSDL2 -lSDL2 -lSDL2_image
 DEFINE= -DSDL_MAIN_HANDLED -DSTB_RECT_PACK_IMPLEMENTATION\
         -DSTB_TRUETYPE_IMPLEMENTATION -DSTBTTF_IMPLEMENTATION
@@ -44,7 +43,7 @@ default:
 
 .PHONY:ems
 ems: $(EMS_OBJ)
-	$(EMCC) -o $(EMOUT) $^ $(EMFLAGS) --preload-file $(ASSETS) $(LIB)
+	$(EMCC) -o $(EMOUT) $^ $(EMFLAGS) --preload-file $(ASSETS)
 
 $(EMS_OBJDIR)/%.o: $(SRCDIR)/%.c
 	$(EMCC) -c -o $@ $< $(EMFLAGS) $(DEFINE) $(INCDIR)

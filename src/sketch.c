@@ -9,6 +9,9 @@
 
 typedef struct MainLoopParam {
   SDL_Renderer * renderer;
+  SDL_Texture * life;
+  SDL_Texture * death;
+  bool ** grid;
   bool quit_flag;
 } MainLoopParam_t;
 
@@ -17,11 +20,18 @@ void main_loop(void *v_param);
 
 void MEOW_Repeat(SDL_Renderer *renderer) {
   /* Definition and setting variables for sketch */
-  setup();
+  SDL_Texture * life;
+  SDL_Texture * death;
+  bool ** grid;
+  setup(renderer, &life, &death, &grid);
+
 
   MainLoopParam_t param = {
     .renderer = renderer,
     .quit_flag = false,
+    .life = life,
+    .death = death,
+    .grid = grid
   };
 
   #ifdef __EMSCRIPTEN__
@@ -33,7 +43,7 @@ void MEOW_Repeat(SDL_Renderer *renderer) {
   #endif
 
   /* cleaning up sekcth "things" */
-  clean_up();
+  clean_up(life, death, grid);
 }
 
 
@@ -51,12 +61,17 @@ void main_loop(void *v_param) {
   }
 
   /* update and draw */
-  update();
 
   SDL_Renderer * renderer = param->renderer;
-  draw(renderer);
+  SDL_Texture * life = param->life;
+  SDL_Texture * death = param->death;
+  bool ** grid = param->grid;
+
+  draw(renderer, life, death, (bool const * const * const) grid);
   SDL_Delay(1000 / FPS);
   SDL_RenderPresent(renderer);
+
+  update(grid);
 }
 
 
